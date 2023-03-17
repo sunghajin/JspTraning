@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+
+<mapper namespace="com.web.traing.member.mapper.MemberMapper">
+	<select id="getAllMember" resultType="com.web.traing.member.vo.MemberVO">
+		SELECT user_no, user_nm, user_id FROM MEMBER_INFO
+	</select>
+</mapper>
