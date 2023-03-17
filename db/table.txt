@@ -1,0 +1,20 @@
+
+drop TABLE `tbl_board`;
+CREATE TABLE `tbl_board` (
+  `bno` smallint(6) NOT NULL,
+  `title` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `content` varchar(4000) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `writer` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `regdate` date DEFAULT sysdate(),
+  `viewcnt` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`bno`)
+)
+
+
+drop TABLE `member_info` ;
+CREATE TABLE `member_info` (
+  `user_no` int(11) DEFAULT NULL,
+  `user_id` varchar(100) DEFAULT NULL,
+  `user_nm` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`user_no`)
+)
