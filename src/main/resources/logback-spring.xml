@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 60초마다 설정 파일의 변경을 확인 하여 변경시 갱신 -->
-<configuration scan="true" scanPeriod="60 seconds">
+<configuration debug="true">
     <springProfile name="local">
         <property resource="logback-local.properties"/>
     </springProfile>
@@ -14,7 +13,7 @@
     <!-- err log file name -->
     <property name="ERR_LOG_FILE_NAME" value="err_log"/>
     <!-- 로그 출력 패턴 -->
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%logger{40}] - %msg%n"/>
+    <property name="LOG_PATTERN" value="%d %5p [%c] %m%n"/>
     <!-- 로그 레벨 -->
     <!--
     	1) ERROR : 오류 메시지 표시
@@ -25,14 +24,19 @@
         아래에서는 info로 설정하였는데, 이 경우엔 INFO보다 위에 있는 DEBUG와 TRACE는 표시하지 않는다.
     -->
    <property name="LOG_LEVEL" value="${logging.level.root}"/>
- 
-    <!-- CONSOLE에 로그 출력 세팅 -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>${LOG_PATTERN}</Pattern>
+       
+    <!-- Appenders -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d %5p [%c] %m%n</Pattern>
         </encoder>
     </appender>
 
+    <appender name="console-infolog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d %5p %m%n</Pattern>
+        </encoder>
+    </appender>
     <!-- File에 로그 출력 세팅 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 파일 경로 설정 -->
@@ -77,18 +81,18 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
 	</appender>
-	    
-    <!-- root레벨 설정 -->
-    <root level="${LOG_LEVEL}">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="Error"/>
-    </root>
+    	
+    <!-- Logger -->
+    <logger name="com.web.traing" level="DEBUG" appender-ref="console" />
+    <logger name="jdbc.sqlonly" level="INFO" appender-ref="console-infolog" />
+    <logger name="jdbc.resultsettable" level="INFO" appender-ref="console-infolog" />
+    <logger name="file" level="INFO" appender-ref="FILE" />
+    <logger name="error" level="ERROR" appender-ref="Error" />
 
-    <!-- 특정패키지 로깅레벨 설정 -->
-    <logger name="org.apache.ibatis" level="DEBUG" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="Error"/>
-    </logger>
+    <!-- Root Logger -->
+    <root level="off">
+        <appender-ref ref="console" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="Error" />
+    </root>
 </configuration>
